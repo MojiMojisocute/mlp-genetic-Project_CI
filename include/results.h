@@ -17,11 +17,17 @@ struct FoldResult {
 
 struct ExperimentResult {
     std::vector<int> network_structure;
+    int run_id;
+    unsigned int seed;
     std::vector<FoldResult> fold_results;
     double mean_test_accuracy;
     double std_test_accuracy;
     double mean_train_accuracy;
     double std_train_accuracy;
+    
+    ExperimentResult() : run_id(0), seed(0), mean_test_accuracy(0.0), 
+                        std_test_accuracy(0.0), mean_train_accuracy(0.0), 
+                        std_train_accuracy(0.0) {}
     
     void calculate();
     void print() const;
@@ -40,15 +46,15 @@ public:
     void printSummary() const;
     void printComparison() const;
     
-    // Save detailed results (all folds, all metrics)
     void saveAllResults(const std::string& filename) const;
-    
-    // Save summary statistics only (means, stds)
     void saveSummaryResults(const std::string& filename) const;
     
     const std::vector<ExperimentResult>& getExperiments() const { 
         return experiments; 
     }
+    
+    void clear() { experiments.clear(); }
+    int size() const { return experiments.size(); }
 };
 
 #endif // RESULTS_H
